@@ -10,11 +10,12 @@ namespace PshopMultithreading
 {
     class Program
     {
-        public static Application App = new Application();
+        public static Application App = null;
         public static Thread PhotoshopThread = null;
 
         static void Main(string[] args)
         {
+            App = new Application();
             Document document = App.Documents.Add(500, 500, 96, "MyDocument") as Document;
             document.Info.Keywords = new object[] { "editing" };
 
@@ -54,6 +55,7 @@ namespace PshopMultithreading
                 saveOptions.Quality = 12;
 
                 photoshop.ActiveDocument.SaveAs(@"C:\Users\Dude\Documents\00.jpg", saveOptions, true, PsExtensionType.psLowercase);
+                photoshop.ActiveDocument.Close(PsSaveOptions.psDoNotSaveChanges);
 
                 Thread.CurrentThread.Abort();
             }
